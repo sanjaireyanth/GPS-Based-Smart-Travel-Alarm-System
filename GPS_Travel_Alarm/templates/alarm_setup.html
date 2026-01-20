@@ -1,0 +1,168 @@
+<!--
+Author: Sanjai Reyanth
+Project: GPS Based Smart Travel Alarm System
+License: MIT
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alarm Setup - SafeTravel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <nav class="app-navbar">
+            <button class="nav-btn" onclick="goBack()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </button>
+            <h1 class="app-title">SafeTravel</h1>
+            <div class="nav-spacer"></div>
+        </nav>
+
+        <div class="page-content">
+            <div class="progress-indicator">
+                <div class="progress-step completed">✓</div>
+                <div class="progress-line"></div>
+                <div class="progress-step completed">✓</div>
+                <div class="progress-line"></div>
+                <div class="progress-step active">2</div>
+            </div>
+
+            <div class="content-card glass">
+                <h2 class="card-title">Set Alarm Distance</h2>
+                <p class="card-subtitle">How many KM before your destination should the alarm ring?</p>
+
+                <div class="total-distance-info">
+                    <span>Total Distance:</span>
+                    <span id="totalDistance" class="distance-highlight">-- KM</span>
+                </div>
+
+                <form id="alarmForm" class="alarm-form">
+                    <div class="form-group">
+                        <label for="alarmDistance">Alarm Before Destination</label>
+                        <div class="slider-container">
+                            <input 
+                                type="range" 
+                                id="alarmDistance"
+                                name="alarmDistance"
+                                min="0.5"
+                                max="50"
+                                step="0.5"
+                                value="5"
+                            >
+                            <div class="slider-value" id="sliderValue">5 KM</div>
+                        </div>
+                        <div class="slider-labels">
+                            <span>0.5 KM</span>
+                            <span>50 KM</span>
+                        </div>
+                    </div>
+
+                    <div class="alarm-preview glass">
+                        <h3>Alarm Preview</h3>
+                        <p>Your alarm will ring when you're <span id="previewDistance" class="highlight">5 km</span> away from your destination</p>
+                    </div>
+
+                    <button type="submit" class="btn-primary btn-large">
+                        <span>Start Journey</span>
+                    </button>
+                </form>
+
+                <div id="alarmError" class="alert alert-error" style="display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
+    <script>
+        let totalDistance = 0;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Load route data from session
+            try {
+                const response = await fetch('/api/get-journey');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.total_distance) {
+                        totalDistance = data.total_distance;
+                        document.getElementById('totalDistance').textContent = totalDistance.toFixed(2) + ' KM';
+                        const maxAlarmDistance = Math.max(5, totalDistance - 1);
+                        document.getElementById('alarmDistance').max = Math.min(50, maxAlarmDistance);
+                    }
+                } else {
+                    // No session, redirect
+                    window.location.href = '/home';
+                }
+            } catch (error) {
+                console.error('Error loading route:', error);
+                window.location.href = '/home';
+            }
+
+            // Update slider value display
+            const alarmSlider = document.getElementById('alarmDistance');
+            if (alarmSlider) {
+                alarmSlider.addEventListener('input', (e) => {
+                    const value = parseFloat(e.target.value);
+                    document.getElementById('sliderValue').textContent = value + ' KM';
+                    document.getElementById('previewDistance').textContent = value + ' km';
+                });
+            }
+
+            // Handle form submission
+            const alarmForm = document.getElementById('alarmForm');
+            if (alarmForm) {
+                alarmForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const alarmDistance = parseFloat(document.getElementById('alarmDistance').value);
+                    const errorDiv = document.getElementById('alarmError');
+
+                    if (!totalDistance) {
+                        errorDiv.textContent = 'Route information missing. Please go back and select a route.';
+                        errorDiv.style.display = 'block';
+                        return;
+                    }
+
+                    if (alarmDistance >= totalDistance) {
+                        errorDiv.textContent = 'Alarm distance must be less than total distance';
+                        errorDiv.style.display = 'block';
+                        return;
+                    }
+
+                    try {
+                        errorDiv.style.display = 'none';
+                        const response = await fetch('/api/setup-alarm', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({alarm_distance: alarmDistance})
+                        });
+
+                        const data = await response.json();
+
+                        if (data.success) {
+                            errorDiv.style.display = 'none';
+                            window.location.href = '/tracking';
+                        } else {
+                            errorDiv.textContent = data.error || 'Failed to setup alarm';
+                            errorDiv.style.display = 'block';
+                        }
+                    } catch (error) {
+                        errorDiv.textContent = 'Error: ' + error.message;
+                        errorDiv.style.display = 'block';
+                    }
+                });
+            }
+        });
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

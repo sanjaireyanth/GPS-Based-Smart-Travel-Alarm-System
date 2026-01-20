@@ -1,0 +1,19 @@
+# This is a placeholder for the alarm sound file
+# 
+# Instructions to add alarm sound:
+# 1. Download a free alarm sound from:
+#    - Pixabay: https://pixabay.com/sound-effects/
+#    - Freesound: https://freesound.org/
+#    - ZapSplat: https://www.zapsplat.com/
+#
+# 2. Save it as 'alarm.mp3' in this directory
+#
+# 3. If no MP3 file is found, the system will automatically use
+#    Web Audio API to generate a beeping alarm sound
+#
+# Recommended alarm sounds:
+# - High-pitched continuous beep
+# - Loud and attention-grabbing
+# - Duration: At least 10-15 seconds
+
+Note: This file can be deleted once you add an actual alarm.mp3 file

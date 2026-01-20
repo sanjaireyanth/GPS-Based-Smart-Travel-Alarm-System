@@ -1,0 +1,63 @@
+<!--
+Author: Sanjai Reyanth
+Project: GPS Based Smart Travel Alarm System
+License: MIT
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALARM - SafeTravel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/alarm.css') }}">
+</head>
+<body class="alarm-mode">
+    <div class="alarm-container">
+        <div class="alarm-background"></div>
+        
+        <div class="alarm-content">
+            <div class="alarm-icon-wrapper">
+                <div class="alarm-bell">🔔</div>
+            </div>
+
+            <h1 class="alarm-title">DESTINATION ALERT!</h1>
+            <p class="alarm-subtitle">You are near your destination</p>
+
+            <div class="alarm-info-box glass">
+                <div class="info-row">
+                    <span class="info-label">From</span>
+                    <span id="alarmFrom" class="info-value">--</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">To</span>
+                    <span id="alarmTo" class="info-value">--</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Distance</span>
+                    <span id="alarmDistValue" class="info-value">--</span>
+                </div>
+            </div>
+
+            <p class="alarm-instruction">
+                Tap the button to confirm you're getting off
+            </p>
+
+            <button id="stopAlarmBtn" class="btn-alarm">
+                ✓ I'm Getting Off Here
+            </button>
+
+            <div class="countdown-section">
+                <p class="countdown-label">Emergency alert in</p>
+                <div id="countdown" class="countdown-timer">30</div>
+                <p class="countdown-info">If you don't respond</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio element for alarm sound -->
+    <audio id="alarmSound" preload="auto" loop></audio>
+
+    <script src="{{ url_for('static', filename='js/alarm.js') }}"></script>
+</body>
+</html>

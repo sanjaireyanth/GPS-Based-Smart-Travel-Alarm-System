@@ -1,0 +1,110 @@
+<!--
+Author: Sanjai Reyanth
+Project: GPS Based Smart Travel Alarm System
+License: MIT
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Selection - SafeTravel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <nav class="app-navbar">
+            <button class="nav-btn" onclick="navigateTo('/')">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </button>
+            <h1 class="app-title">SafeTravel</h1>
+            <div class="nav-spacer"></div>
+        </nav>
+
+        <div class="page-content">
+            <div class="progress-indicator">
+                <div class="progress-step completed">✓</div>
+                <div class="progress-line"></div>
+                <div class="progress-step active">1</div>
+                <div class="progress-line"></div>
+                <div class="progress-step">2</div>
+            </div>
+
+            <div class="content-card glass">
+                <h2 class="card-title">Confirm Your Route</h2>
+                <div id="routeInfo" class="route-info">
+                    <div class="route-display">
+                        <div class="location-box">
+                            <div class="location-label">From</div>
+                            <div id="sourceDisplay" class="location-name">Loading...</div>
+                        </div>
+                        
+                        <div class="route-divider">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </div>
+
+                        <div class="location-box">
+                            <div class="location-label">To</div>
+                            <div id="destinationDisplay" class="location-name">Loading...</div>
+                        </div>
+                    </div>
+
+                    <div class="distance-box glass">
+                        <div class="distance-value" id="distanceValue">--</div>
+                        <div class="distance-label">Total Distance</div>
+                    </div>
+                </div>
+
+                <button class="btn-primary btn-large" onclick="continueToAlarmSetup()">
+                    <span>Continue to Alarm Setup</span>
+                </button>
+
+                <button class="btn-secondary" onclick="navigateTo('/home')">
+                    <span>Change Route</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const nav = window.navigator;
+            
+            // Validate session before loading
+            try {
+                const response = await fetch('/api/get-journey');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.source && data.destination) {
+                        document.getElementById('sourceDisplay').textContent = data.source;
+                        document.getElementById('destinationDisplay').textContent = data.destination;
+                        document.getElementById('distanceValue').textContent = (data.total_distance || 0).toFixed(2) + ' km';
+                    }
+                } else {
+                    // No session, redirect to home
+                    window.location.href = '/home';
+                }
+            } catch (error) {
+                console.error('Error loading route:', error);
+                window.location.href = '/home';
+            }
+        });
+
+        function continueToAlarmSetup() {
+            window.location.href = '/alarm-setup';
+        }
+
+        function navigateTo(path) {
+            window.location.href = path;
+        }
+    </script>
+</body>
+</html>

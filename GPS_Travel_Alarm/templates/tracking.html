@@ -1,0 +1,86 @@
+<!--
+Author: Sanjai Reyanth
+Project: GPS Based Smart Travel Alarm System
+License: MIT
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Tracking - SafeTravel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+</head>
+<body>
+    <div class="app-container tracking-page">
+        <nav class="app-navbar">
+            <div class="nav-spacer"></div>
+            <h1 class="app-title">SafeTravel</h1>
+            <button class="nav-btn" onclick="endJourney()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </nav>
+
+        <div class="tracking-content">
+            <div class="route-summary glass">
+                <div class="summary-item">
+                    <span class="label">From</span>
+                    <span id="summarySource" class="value">--</span>
+                </div>
+                <div class="summary-divider">→</div>
+                <div class="summary-item">
+                    <span class="label">To</span>
+                    <span id="summaryDestination" class="value">--</span>
+                </div>
+            </div>
+
+            <div class="tracking-card glass">
+                <div class="gps-status">
+                    <div class="status-dot" id="gpsStatusDot"></div>
+                    <span id="gpsStatusText">Acquiring GPS...</span>
+                </div>
+
+                <div class="distance-display">
+                    <div class="distance-large">
+                        <span id="distanceValue">--</span>
+                        <span class="unit">KM</span>
+                    </div>
+                    <div class="distance-label">Distance to Destination</div>
+                </div>
+
+                <div class="progress-section">
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                    <p id="progressText" class="progress-text">Calculating...</p>
+                </div>
+
+                <div class="tracking-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Current Position</span>
+                        <span id="currentPosition" class="detail-value">--</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Alarm Will Ring At</span>
+                        <span id="alarmDistance" class="detail-value">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="warningBox" class="alert alert-warning glass" style="display:none;">
+                <h3>⚠️ Approaching Destination</h3>
+                <p>You are getting close! Get ready to get off.</p>
+            </div>
+
+            <div id="trackingError" class="alert alert-error" style="display:none;"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tracking.js') }}"></script>
+</body>
+</html>

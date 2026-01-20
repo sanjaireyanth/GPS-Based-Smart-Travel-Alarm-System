@@ -1,0 +1,167 @@
+<!--
+Author: Sanjai Reyanth
+Project: GPS Based Smart Travel Alarm System
+License: MIT
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Journey - SafeTravel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <nav class="app-navbar">
+            <button class="nav-btn" onclick="goBack()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </button>
+            <h1 class="app-title">SafeTravel</h1>
+            <div class="nav-spacer"></div>
+        </nav>
+
+        <div class="page-content">
+            <div class="progress-indicator">
+                <div class="progress-step active">1</div>
+                <div class="progress-line"></div>
+                <div class="progress-step">2</div>
+                <div class="progress-line"></div>
+                <div class="progress-step">3</div>
+            </div>
+
+            <div class="content-card glass">
+                <h2 class="card-title">Select Your Route</h2>
+                <p class="card-subtitle">Enter your starting point and destination</p>
+
+                <form id="routeForm" class="route-form">
+                    <div class="form-group">
+                        <label for="source">Starting Point</label>
+                        <input 
+                            type="text" 
+                            id="source" 
+                            placeholder="e.g., Chennai, Bangalore"
+                            required
+                            autocomplete="off"
+                        >
+                        <div id="sourceDropdown" class="autocomplete-dropdown"></div>
+                    </div>
+
+                    <div class="form-swap">
+                        <button type="button" class="swap-btn" onclick="swapLocations()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 16V4m0 0L3 8m4-4l4 4"></path>
+                                <path d="M17 8v12m0 0l4-4m-4 4l-4-4"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="destination">Destination</label>
+                        <input 
+                            type="text" 
+                            id="destination" 
+                            placeholder="e.g., Madurai, Trichy"
+                            required
+                            autocomplete="off"
+                        >
+                        <div id="destinationDropdown" class="autocomplete-dropdown"></div>
+                    </div>
+
+                    <button type="submit" class="btn-primary btn-large">
+                        <span>Calculate Route</span>
+                        <span class="loader" id="routeLoader" style="display:none;"></span>
+                    </button>
+                </form>
+
+                <div id="routeError" class="alert alert-error" style="display:none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/navigation.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/geocoding.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const geocoding = window.geocoding;
+            const navigator = window.navigator;
+            
+            // Initialize geocoding autocomplete
+            if (geocoding) {
+                geocoding.attachEventListeners();
+            }
+
+            // Handle route form submission
+            const routeForm = document.getElementById('routeForm');
+            if (routeForm) {
+                routeForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const sourceInput = document.getElementById('source');
+                    const destInput = document.getElementById('destination');
+                    const errorDiv = document.getElementById('routeError');
+                    
+                    const source = sourceInput.value.trim();
+                    const destination = destInput.value.trim();
+                    
+                    if (!source || !destination) {
+                        errorDiv.textContent = 'Please enter both source and destination';
+                        errorDiv.style.display = 'block';
+                        return;
+                    }
+                    
+                    if (source.toLowerCase() === destination.toLowerCase()) {
+                        errorDiv.textContent = 'Source and destination cannot be the same';
+                        errorDiv.style.display = 'block';
+                        return;
+                    }
+
+                    try {
+                        errorDiv.style.display = 'none';
+                        document.getElementById('routeLoader').style.display = 'inline-block';
+                        
+                        const response = await fetch('/api/geocode', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({source, destination})
+                        });
+
+                        const data = await response.json();
+                        document.getElementById('routeLoader').style.display = 'none';
+
+                        if (data.success) {
+                            errorDiv.style.display = 'none';
+                            window.location.href = '/route-selection';
+                        } else {
+                            errorDiv.textContent = data.error || 'Failed to find route';
+                            errorDiv.style.display = 'block';
+                        }
+                    } catch (error) {
+                        document.getElementById('routeLoader').style.display = 'none';
+                        errorDiv.textContent = 'Error: ' + error.message;
+                        errorDiv.style.display = 'block';
+                    }
+                });
+            }
+
+            // Swap button functionality
+            document.querySelectorAll('.swap-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (geocoding) {
+                        geocoding.swapInputs();
+                    }
+                });
+            });
+        });
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

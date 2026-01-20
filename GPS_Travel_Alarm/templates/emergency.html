@@ -1,0 +1,98 @@
+<!--
+Author: Sanjai Reyanth
+Project: GPS Based Smart Travel Alarm System
+License: MIT
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Alert - SafeTravel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/alarm.css') }}">
+</head>
+<body class="emergency-mode">
+    <div class="emergency-container">
+        <div class="emergency-header">
+            <h1 class="emergency-title">🚨 EMERGENCY ALERT</h1>
+            <p class="emergency-subtitle">User did not respond to destination alarm</p>
+        </div>
+
+        <div class="emergency-content">
+            <div class="alert alert-critical glass">
+                <h2>⚠️ AUTOMATIC ACTIONS INITIATED</h2>
+                <p>The system detected that you did not respond to the destination alarm. Emergency procedures have been triggered.</p>
+            </div>
+
+            <div class="emergency-info-box glass">
+                <h3>📍 Last Known Location</h3>
+                <div class="location-details">
+                    <div class="location-item">
+                        <span class="label">Latitude</span>
+                        <span id="emergencyLat" class="value">--</span>
+                    </div>
+                    <div class="location-item">
+                        <span class="label">Longitude</span>
+                        <span id="emergencyLon" class="value">--</span>
+                    </div>
+                    <div class="location-item">
+                        <span class="label">Time</span>
+                        <span id="emergencyTime" class="value">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="emergency-actions">
+                <button class="btn-emergency" onclick="callEmergency()">
+                    📞 Call Emergency (112)
+                </button>
+                <button class="btn-secondary-emergency" onclick="resetSystem()">
+                    ⟲ Start New Journey
+                </button>
+                <button class="btn-secondary-emergency" onclick="goHome()">
+                    🏠 Go to Home
+                </button>
+            </div>
+
+            <div class="emergency-notice glass">
+                <h4>Important Notice</h4>
+                <p>This emergency alert has been logged. In a real emergency scenario, authorities would be automatically notified with your last known location. Please ensure your device has location services enabled for maximum safety.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function callEmergency() {
+            window.location.href = 'tel:112';
+        }
+
+        async function resetSystem() {
+            try {
+                await fetch('/api/reset', {method: 'POST'});
+                window.location.href = '/home';
+            } catch (error) {
+                console.error('Error resetting system:', error);
+                window.location.href = '/home';
+            }
+        }
+
+        function goHome() {
+            window.location.href = '/';
+        }
+
+        // Load emergency info from localStorage or session
+        function loadEmergencyInfo() {
+            const emergency = sessionStorage.getItem('emergency_data');
+            if (emergency) {
+                const data = JSON.parse(emergency);
+                document.getElementById('emergencyLat').textContent = data.lat || '--';
+                document.getElementById('emergencyLon').textContent = data.lon || '--';
+                document.getElementById('emergencyTime').textContent = new Date().toLocaleTimeString();
+            }
+        }
+
+        window.addEventListener('load', loadEmergencyInfo);
+    </script>
+</body>
+</html>

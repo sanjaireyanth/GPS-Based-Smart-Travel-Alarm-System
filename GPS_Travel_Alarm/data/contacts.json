@@ -1,0 +1,19 @@
+{
+  "emergency_contacts": [
+    {
+      "name": "Mom",
+      "phone": "+91-XXXXXXXXXX",
+      "email": "mom@email.com"
+    },
+    {
+      "name": "Dad",
+      "phone": "+91-XXXXXXXXXX",
+      "email": "dad@email.com"
+    },
+    {
+      "name": "Emergency Services",
+      "phone": "112",
+      "email": "emergency@police.gov"
+    }
+  ]
+}

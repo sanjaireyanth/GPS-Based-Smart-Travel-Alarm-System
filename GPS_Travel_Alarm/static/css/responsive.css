@@ -1,0 +1,500 @@
+/* ==================== RESPONSIVE MOBILE ==================== */
+
+@media (max-width: 1024px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    header h1 {
+        font-size: 2em;
+    }
+
+    .content-box {
+        padding: 30px 20px;
+    }
+
+    .features {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    /* Header */
+    header {
+        padding: 25px 15px;
+    }
+
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    header p {
+        font-size: 1em;
+    }
+
+    .back-btn {
+        left: 15px;
+        top: 15px;
+        padding: 8px 12px;
+        font-size: 0.9em;
+    }
+
+    /* Main content */
+    main {
+        padding: 20px 0;
+    }
+
+    .page-content {
+        padding: 20px 0;
+    }
+
+    .content-box {
+        padding: 20px;
+    }
+
+    .content-box h2 {
+        font-size: 1.8em;
+    }
+
+    /* Features grid */
+    .features {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .feature {
+        padding: 20px;
+    }
+
+    /* Buttons */
+    .button-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px 20px;
+    }
+
+    /* Cards */
+    .card {
+        border-radius: 12px;
+    }
+
+    .card-header {
+        padding: 20px;
+    }
+
+    /* Form */
+    .form {
+        gap: 20px;
+    }
+
+    .form-group input {
+        padding: 10px 12px;
+        font-size: 16px;
+    }
+
+    /* Info boxes */
+    .info-box {
+        padding: 15px;
+    }
+
+    /* About section */
+    .about-section {
+        padding: 30px 15px;
+    }
+
+    .about-section h2 {
+        font-size: 1.6em;
+    }
+
+    .steps {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .step {
+        padding: 20px;
+    }
+
+    /* Stats */
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .stat {
+        padding: 15px;
+    }
+
+    /* Tracking */
+    .tracking-header h1 {
+        font-size: 1.5em;
+    }
+
+    .tracking-header p {
+        font-size: 0.95em;
+    }
+
+    .tracking-card {
+        padding: 15px;
+    }
+
+    .gps-indicator {
+        padding: 15px;
+        font-size: 0.9em;
+    }
+
+    /* Alarm */
+    .alarm-title {
+        font-size: 2em;
+    }
+
+    .alarm-subtitle {
+        font-size: 1.2em;
+    }
+
+    .alarm-bell {
+        font-size: 80px;
+    }
+
+    #stopAlarmBtn {
+        padding: 15px 30px;
+        font-size: 1.1em;
+    }
+
+    .countdown-timer {
+        font-size: 2em;
+    }
+
+    /* Emergency */
+    .emergency-title {
+        font-size: 1.8em;
+    }
+
+    .emergency-info {
+        grid-template-columns: 1fr;
+    }
+
+    .info-section {
+        padding: 20px;
+    }
+
+    .emergency-actions {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Extreme mobile adjustments */
+    header {
+        padding: 20px 10px;
+    }
+
+    header h1 {
+        font-size: 1.5em;
+    }
+
+    header p {
+        font-size: 0.9em;
+    }
+
+    .back-btn {
+        padding: 6px 10px;
+        font-size: 0.8em;
+    }
+
+    .content-box {
+        padding: 15px;
+    }
+
+    .content-box h2 {
+        font-size: 1.5em;
+    }
+
+    .description {
+        font-size: 0.95em;
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .feature {
+        padding: 15px;
+    }
+
+    .feature .icon {
+        font-size: 2em;
+    }
+
+    .feature h3 {
+        font-size: 1em;
+    }
+
+    .feature p {
+        font-size: 0.85em;
+    }
+
+    .button-group {
+        gap: 8px;
+    }
+
+    .btn {
+        padding: 10px 15px;
+        font-size: 0.95em;
+    }
+
+    .btn-large {
+        padding: 12px 20px;
+        font-size: 1em;
+    }
+
+    /* Forms */
+    .form-group label {
+        font-size: 0.95em;
+    }
+
+    .form-group input {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    /* Card */
+    .card-header {
+        padding: 15px;
+    }
+
+    .card-header h2 {
+        font-size: 1.3em;
+    }
+
+    .card > *:not(.card-header) {
+        padding: 15px;
+    }
+
+    /* Info box */
+    .info-box {
+        padding: 12px;
+    }
+
+    .info-box h3 {
+        font-size: 1em;
+    }
+
+    .info-box p {
+        font-size: 0.85em;
+    }
+
+    /* About section */
+    .about-section {
+        padding: 20px 10px;
+    }
+
+    .about-section h2 {
+        font-size: 1.4em;
+    }
+
+    .step {
+        padding: 15px;
+    }
+
+    .step-num {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2em;
+    }
+
+    .step h3 {
+        font-size: 1em;
+    }
+
+    .step p {
+        font-size: 0.8em;
+    }
+
+    /* Tracking */
+    .tracking-header {
+        padding: 20px 10px;
+    }
+
+    .tracking-header h1 {
+        font-size: 1.3em;
+    }
+
+    .tracking-header p {
+        font-size: 0.85em;
+    }
+
+    .tracking-card {
+        padding: 10px;
+    }
+
+    .stat-value {
+        font-size: 1.2em;
+    }
+
+    .stat label {
+        font-size: 0.8em;
+    }
+
+    /* Alarm */
+    .alarm-title {
+        font-size: 1.6em;
+    }
+
+    .alarm-subtitle {
+        font-size: 1em;
+    }
+
+    .alarm-bell {
+        font-size: 60px;
+    }
+
+    .alarm-info {
+        padding: 15px;
+    }
+
+    .alarm-message {
+        font-size: 1.05em;
+    }
+
+    #stopAlarmBtn {
+        padding: 12px 20px;
+        font-size: 1em;
+        width: 100%;
+    }
+
+    .countdown-timer {
+        font-size: 1.5em;
+    }
+
+    /* Emergency */
+    .emergency-header {
+        padding: 20px 10px;
+    }
+
+    .emergency-title {
+        font-size: 1.4em;
+    }
+
+    .emergency-header p {
+        font-size: 0.9em;
+    }
+
+    .info-section {
+        padding: 15px;
+    }
+
+    .info-section h3 {
+        font-size: 1.1em;
+    }
+
+    .contact-card {
+        padding: 12px;
+    }
+
+    .contact-name {
+        font-size: 1em;
+    }
+
+    .contact-card p {
+        font-size: 0.8em;
+    }
+}
+
+/* ==================== LANDSCAPE MODE ==================== */
+
+@media (max-height: 600px) and (orientation: landscape) {
+    header {
+        padding: 15px;
+    }
+
+    header h1 {
+        font-size: 1.5em;
+        margin-bottom: 5px;
+    }
+
+    header p {
+        font-size: 0.9em;
+    }
+
+    .content-box {
+        padding: 15px;
+    }
+
+    .features {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px;
+    }
+
+    .feature {
+        padding: 10px;
+    }
+
+    .feature .icon {
+        font-size: 1.8em;
+    }
+
+    .button-group {
+        margin-top: 15px;
+    }
+}
+
+/* ==================== TOUCH DEVICE OPTIMIZATION ==================== */
+
+@media (hover: none) and (pointer: coarse) {
+    /* Increase touch target size */
+    .btn {
+        padding: 15px 30px;
+        min-height: 48px;
+    }
+
+    .form-group input {
+        min-height: 44px;
+        font-size: 16px;
+    }
+
+    /* Remove hover effects that don't work on touch */
+    .feature:hover {
+        transform: none;
+    }
+
+    .step:hover {
+        transform: none;
+    }
+
+    .btn:hover {
+        transform: none;
+    }
+}
+
+/* ==================== PRINT STYLES ==================== */
+
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+
+    .btn,
+    .back-btn,
+    footer {
+        display: none;
+    }
+
+    .card,
+    .content-box,
+    .about-section {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        page-break-inside: avoid;
+    }
+}
