@@ -1,1 +1,0 @@
-# GPS-Based-Smart-Travel-Alarm-System
